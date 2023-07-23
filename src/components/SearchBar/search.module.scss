@@ -1,0 +1,30 @@
+@import '../../scss/vars';
+
+.box_search {
+  width: 400px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  .input {
+    background-color: rgb(62, 62, 62);
+    padding: 12px;
+    color: $text-clr;
+    font-weight: 600;
+    width: 70%;
+    transition: all 0.4s;
+    &:focus,
+    focus-visible {
+      &::placeholder {
+        color: $text-clr;
+      }
+      background-color: rgb(153, 150, 150);
+      width: 100%;
+    }
+    &::placeholder {
+      color: #89898e;
+    }
+  }
+  .icon {
+    cursor: pointer;
+  }
+}
