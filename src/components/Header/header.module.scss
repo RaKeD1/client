@@ -10,6 +10,10 @@ header {
   text-transform: uppercase;
   a {
     color: $text-wh-clr;
+    transition: all 0.2s;
+    &:hover {
+      text-shadow: $dop-clr 0 0 8px;
+    }
   }
   .logo {
   }
@@ -38,10 +42,6 @@ header {
       color: $text-wh-clr;
       float: left;
       margin: 0 10px;
-      transition: all 0.2s;
-      &:hover {
-        text-shadow: 0px 0px 20px 5px red;
-      }
     }
   }
   .menu_items {
