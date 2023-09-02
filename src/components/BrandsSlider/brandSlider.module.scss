@@ -1,0 +1,102 @@
+@import '../../scss/vars';
+
+#brandsSlider {
+  margin: 100px 0;
+  position: relative;
+  // .brands {
+  //   padding: 140px 0;
+  // }
+  .brands {
+    .titles {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      flex-direction: column;
+      a {
+        text-decoration: underline;
+        transition: all 0.5s;
+        cursor: pointer;
+        &:hover {
+          text-shadow: #8b8b8b 0px 0 20px;
+        }
+      }
+    }
+  }
+  .gradient {
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    background: rgb(255, 255, 255);
+    background: linear-gradient(
+      87deg,
+      #fff 0%,
+      rgba(255, 255, 255, 0) 34.4%,
+      rgba(255, 255, 255, 0) 65.6%,
+      #fff 100%
+    );
+  }
+
+  .infinite,
+  .infiniteReverse {
+    margin: 30px auto;
+    max-width: 100%;
+    overflow: hidden;
+    position: relative;
+
+    .row1 {
+      animation: infinite 40s linear infinite;
+    }
+
+    .row2 {
+      animation: infiniteReverse 40s linear infinite; /* Обратная анимация для второй части */
+    }
+
+    div {
+      margin: 30px 0;
+      display: flex;
+      width: 300%;
+
+      span {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+      }
+
+      img {
+        transition: all 0.5s;
+        &:hover {
+          transform: scale(1.05);
+          cursor: pointer;
+        }
+        width: 20%;
+      }
+
+      &:hover {
+        animation-play-state: paused;
+      }
+    }
+  }
+}
+
+@keyframes infinite {
+  0% {
+    transform: translateX(0%); /* Изменение с 50% на 0% */
+  }
+  100% {
+    transform: translateX(-50%); /* Изменение с 0% на -50% */
+  }
+}
+
+@keyframes infiniteReverse {
+  0% {
+    transform: translateX(-50%); /* Изменение с 0% на 0% */
+  }
+  100% {
+    transform: translateX(0%); /* Изменение с -50% на 50% */
+  }
+}
