@@ -1,16 +1,17 @@
 import { Route, Routes, useLocation } from "react-router-dom";
+import { useState } from "react";
 
 import NotFound from "./pages/NotFound";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 
-import Registr from "./pages/Registr";
+import Registr from "./pages/Auth/Registration";
 import Profile from "./pages/Profile";
 import Main from "./pages/Main";
 import Catalog from "./pages/Catalog";
 import Brands from "./pages/Brands";
 import Contacts from "./pages/Contacts";
-import Login from "./pages/Login";
+import Login from "./pages/Auth/Login";
 import About from "./pages/About";
 import Projects from "./pages/Projects";
 import Cart from "./pages/Cart";
@@ -21,14 +22,17 @@ import { useAppSelector } from "./redux/hooks/redux";
 function App() {
   // const state = useAppSelector(state=>state.userReducer);
   const location = useLocation();
-  const login: boolean = false;
+  const [login, setLogin] = useState(true);
   return (
     <>
-      <Header login={login} />
+      {login ? <Header /> : ""}
       <div className="content">
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Main />}></Route>
-          <Route path="/login" element={<Login />}></Route>
+          <Route
+            path="/login"
+            element={<Login setLogin={setLogin} login={login} />}
+          ></Route>
           <Route path="/registration" element={<Registr />}></Route>
           <Route path="/catalog" element={<Catalog />}></Route>
           <Route path="/about" element={<About />}></Route>
