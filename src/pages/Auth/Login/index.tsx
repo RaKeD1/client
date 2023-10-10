@@ -1,15 +1,23 @@
-import { FC, useLayoutEffect } from "react";
+import {FC, useLayoutEffect, useState} from "react";
 import styles from "./login.module.scss";
+import {useAppDispatch} from "../../../redux/hooks/redux";
+import {loginAccount} from "../../../redux/reducers/AccountSlice";
 
 interface LoginProps {
-  setLogin: (value: boolean) => void;
+  setLogin: (value: boolean) => void ;
   login?: boolean;
 }
 
-export const Login: FC<LoginProps> = ({ setLogin }) => {
-  useLayoutEffect(() => {
-    setLogin(false);
-  }, [setLogin]);
+export const Login: FC<LoginProps> = ({setLogin,login}) => {
+  const [email, setEmail]=useState<string>('');
+  const [password, setPassword]=useState<string>('');
+  const dispatch = useAppDispatch();
+
+
+  // useLayoutEffect(() => {
+  //   console.log(login);
+  //     setLogin(false);
+  // }, [setLogin]);
 
   return (
     <div className={styles.page}>
@@ -20,13 +28,21 @@ export const Login: FC<LoginProps> = ({ setLogin }) => {
           <div className={styles.inputs}>
             <div className={styles.oneInput}>
               <label>Логин</label>
-              <input type="text" className={styles.input} />
+              <input type="email"
+                     onChange={e =>  setEmail(e.target.value)}// todo Исправть если что функцию
+                     value={email}
+                     className={styles.input} />
             </div>
             <div className={styles.oneInput}>
               <label>Пароль</label>
-              <input type="text" className={styles.input} />
+              <input type="password"
+                     onChange={e => setPassword(e.target.value)}
+                     value={password}
+                     className={styles.input} />
             </div>
-            <button>Авторизация</button>
+            <button type='submit' onClick={()=>
+              dispatch(loginAccount({email,password}))
+            }>Войти</button>
           </div>
         </div>
       </div>

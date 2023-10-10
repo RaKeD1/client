@@ -4,13 +4,14 @@ import accountReducer from "./reducers/AccountSlice";
 
 const rootReducer = combineReducers({
   userReducer,
+  account:accountReducer,
 });
 
 export const store = configureStore({
   reducer: {
     rootReducer,
     user: userReducer,
-    account: accountReducer,
+    account:accountReducer,
   },
 });
 

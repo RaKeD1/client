@@ -1,6 +1,6 @@
-import React from 'react';
+import { FC } from "react";
 
-export const About: React.FC = () => {
+export const About: FC = () => {
   return <div>О нас</div>;
 };
 export default About;

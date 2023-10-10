@@ -7,17 +7,18 @@ import SearchBar from '../SearchBar';
 import classNames from 'classnames';
 
 const pages = [
-  { id: 1, title: 'Проекты', path: '/projects' },
-  { id: 2, title: 'О нас', path: '/about' },
-  { id: 3, title: 'Где купить', path: '/shops' },
-  { id: 4, title: 'Бренды', path: '/brands' },
-  { id: 5, title: 'Контакты', path: '/contacts' },
+    { id: 1, title: 'Каталог', path: '/catalog' },
+  { id: 2, title: 'Проекты', path: '/projects' },
+  { id: 3, title: 'О нас', path: '/about' },
+  { id: 4, title: 'Где купить', path: '/shops' },
+  { id: 5, title: 'Бренды', path: '/brands' },
+  { id: 6, title: 'Контакты', path: '/contacts' },
 ];
 const Header = (login: any) => {
   const location = useLocation();
-  const item = 33;
+  const itemCart = 33;
   const [isOpen, setIsOpen] = React.useState(false);
-  console.log('login', login);
+  console.log('login', login);// todo исправить
 
   const isActive = (path: any) => location.pathname === path;
   return (
@@ -54,7 +55,7 @@ const Header = (login: any) => {
           <Link className={location.pathname === '/cart' ? styles.active : ''} to='/cart'>
             Корзина
           </Link>
-          <span className={styles.alert}>{item}</span>
+          <span className={styles.alert}>{itemCart}</span>
         </div>
       </div>
     </header>
