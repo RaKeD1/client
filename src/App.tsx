@@ -1,78 +1,98 @@
-import { Route, Routes, useLocation } from "react-router-dom";
-import {useContext, useEffect, useReducer, useState} from "react";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { useContext, useEffect, useReducer, useState } from "react";
 
 import NotFound from "./pages/NotFound";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 
-import Registr from "./pages/Auth/Registration";
 import Profile from "./pages/Profile";
 import Main from "./pages/Main";
 import Catalog from "./pages/Catalog";
 import Brands from "./pages/Brands";
 import Contacts from "./pages/Contacts";
-import Login from "./pages/Auth/Login";
 import About from "./pages/About";
 import Projects from "./pages/Projects";
 import Cart from "./pages/Cart";
 
-import "./scss/app.scss";
-import {useAppDispatch, useAppSelector} from "./redux/hooks/redux";
-import {checkAuth, Status} from "./redux/reducers/AccountSlice";
-import {accountSlice} from "./redux/reducers/CartSlice";
+import "./app.scss";
+import { useAppDispatch, useAppSelector } from "./redux/hooks/redux";
+import { checkAuth, Status } from "./redux/reducers/AccountSlice";
 import Loading from "./components/Loading";
-
+import Goods from "./admin/pages/Goods";
+import Admin from "./admin/pages/Main";
+import { RootState } from "./redux/store";
 
 function App() {
-  const isAuth = useAppSelector((state)=> state.account.isAuth )
-  const isLoading = useAppSelector((state)=> state.account.isLoading )
+  const [isAuth, setIsAuth] = useState<boolean>(false);
+  const newIsAuth = localStorage.isAuth;
+  const isLoading = useAppSelector((state) => state.account.isLoading);
 
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   // const state = useAppSelector(state=>state.userReducer);
   const location = useLocation();
-  const [login, setLogin] =useState<boolean>(true);
-  const status = useAppSelector((state)=>state.account.status)
+  const [login, setLogin] = useState<boolean>(true);
+  const status = useAppSelector((state) => state.account.status);
   useEffect(() => {
-    console.log("checkAuth UseEffect")
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem("token")) {
       dispatch(checkAuth());
     }
   }, []);
 
   if (status === Status.LOADING) return <Loading />;
 
-    if (!isAuth){
-      console.log("isAuth-false ",isAuth);
-      return <Login setLogin={setLogin} login={login}/>
-    }
-  else {
-    console.log("isAuth ",isAuth);
-    return (
-      <>
+  return (
+    <>
+      <Header login={login} setLogin={setLogin} />
+      <div className="content">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Main />}></Route>
 
-        {isAuth ? <Header /> : ""}
-        <div className="content">
-          <Routes location={location} key={location.pathname}>
-            <Route path="/" element={<Main />}></Route>
+          <Route path="/admin">
             <Route
-              path="/login"
-              element={<Login setLogin={setLogin} login={login} />}
+              path=""
+              element={
+                <RequireAuth redirectTo={"/profile"}>
+                  <Admin />
+                </RequireAuth>
+              }
             ></Route>
-            <Route path="/registration" element={<Registr />}></Route>
-            <Route path="/catalog" element={<Catalog />}></Route>
-            <Route path="/about" element={<About />}></Route>
-            <Route path="/brands" element={<Brands />}></Route>
-            <Route path="/contacts" element={<Contacts />}></Route>
-            <Route path="/projects" element={<Projects />}></Route>
-            <Route path="/profile" element={<Profile />}></Route>
-            <Route path="/cart" element={<Cart />}></Route>
-            <Route path="*" element={<NotFound />}></Route>
-          </Routes>
-        </div>
-        {login ? <Footer /> : ""}
-      </>
-    );
-  }
+            <Route path="goods" element={<Goods />}></Route>
+          </Route>
+          <Route path="/catalog" element={<Catalog />}></Route>
+          <Route path="/about" element={<About />}></Route>
+          <Route path="/brands" element={<Brands />}></Route>
+          <Route path="/contacts" element={<Contacts />}></Route>
+          <Route path="/projects" element={<Projects />}></Route>
+          <Route
+            path="/profile"
+            element={
+              <RequireAuth redirectTo="/">
+                <Profile />
+              </RequireAuth>
+            }
+          ></Route>
+          <Route path="/cart" element={<Cart />}></Route>
+          <Route path="*" element={<NotFound />}></Route>
+        </Routes>
+      </div>
+      {location.pathname == "/registration" || location.pathname == "/login" ? (
+        ""
+      ) : (
+        <Footer />
+      )}
+    </>
+  );
+}
+function RequireAuth({ children, redirectTo }: any) {
+  const isAuth = useAppSelector((state: RootState) => state.account.isAuth);
+  console.log("isAuth", isAuth);
+  return isAuth ? children : <Navigate to={redirectTo} />;
+}
+
+function RequireNotAuth({ children, redirectTo }: any) {
+  const isAuth = useAppSelector((state: RootState) => state.account.isAuth);
+  console.log("isAuth", isAuth);
+  return !isAuth ? children : <Navigate to={redirectTo} />;
 }
 
 export default App;

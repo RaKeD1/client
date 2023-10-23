@@ -19,7 +19,7 @@
     content: " ";
     position: absolute;
     width: 50%;
-    height: 110%;
+    height: 70%;
     text-decoration: none;
     background: $dop-clr;
     background: linear-gradient(
@@ -76,15 +76,13 @@
     }
   }
   .content {
-    width: 600px;
-    height: 600px;
-    padding: 80px 140px;
+    margin: 100px 0;
+    padding: 80px 140px 20px;
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     z-index: 1;
-    transform: 0.5s;
     color: #fff;
     h2 {
       display: flex;
@@ -106,7 +104,6 @@
   .oneInput {
     display: flex;
     flex-direction: column;
-
     margin-bottom: 40px;
 
     label {
@@ -130,6 +127,9 @@
       padding: 5px 5px 5px 0;
       font-size: 23px;
       transition: all 0.5s ease;
+      border:none;
+      background-color: transparent;
+      color:$text-wh-clr;
 
       border-bottom: solid 2px #b8b8b8;
       &:focus {
@@ -139,6 +139,7 @@
       }
     }
   }
+
   button {
     background-color: $dop-clr;
     border-radius: 30px;
@@ -157,4 +158,28 @@
       box-shadow: 0 5px 15px rgba(240, 183, 165, 0.3);
     }
   }
+
 }
+.link_box{
+  margin: 0 auto;
+  padding: 0 0 20px;
+  .link {
+    font-size: 20px;
+    padding: 0;
+    border-radius: 0;
+    color: $text-wh-clr;
+    background-color: transparent;
+    border-bottom: 1px solid $text-wh-clr;
+    transition: border-bottom 0.1s ease;
+
+    &:hover {
+      cursor: pointer;
+      border-bottom: none;
+      border:none;
+    }
+    &:active {
+
+      box-shadow: none;
+    }
+
+}}

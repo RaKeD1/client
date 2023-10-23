@@ -1,7 +1,7 @@
 import React from "react";
 import Slider from "../../components/Slider";
 import BrandsSlider from "../../components/BrandsSlider";
-import {useAppSelector} from "../../redux/hooks/redux";
+import { useAppSelector } from "../../redux/hooks/redux";
 export const Main: React.FC = () => {
   const slides = [
     {
@@ -41,8 +41,6 @@ export const Main: React.FC = () => {
       img: "../../assets/photo/2.jpg",
     },
   ];
-  const user = useAppSelector(state => state.account);
-  console.log('main',user)
   return (
     <>
       <Slider SliderInfo={slides} />

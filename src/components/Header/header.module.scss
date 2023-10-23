@@ -8,6 +8,23 @@ header {
   color: $text-wh-clr;
   align-items: center;
   text-transform: uppercase;
+  button {
+    background-color: transparent;
+    color:$text-wh-clr;
+    font-size: 17px;
+    border:1px solid $dop-clr;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    &:hover{
+      transition: 0.2s;
+      background-color: $dop-clr;
+      border: $dop-clr
+    }
+    &:active{ box-shadow: $text-wh-clr 0 0 8px;}
+
+
+  }
   a {
     color: $text-wh-clr;
     transition: all 0.2s;
@@ -83,7 +100,6 @@ header {
         display: flex;
         justify-content: center;
         border-radius: 50%;
-        color: $text-wh-clr;
         background-color: $dop-clr;
         align-items: center;
         width: 22px;
