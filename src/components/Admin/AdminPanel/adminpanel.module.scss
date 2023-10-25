@@ -1,0 +1,47 @@
+
+@import "../../../pages/Admin/admin.module.scss";
+
+nav {
+  margin: 0 50px 0 50px;
+}
+.page{
+  display: flex;
+  margin:40px 0;
+
+li {
+  padding: 20px;
+  background-color: transparent;
+  border-radius: 30px;
+  border: 1px solid transparent;
+  color:$text-clr;
+  margin-bottom: 10px;
+  font-size:18px;
+  height: 60px;
+  overflow: hidden; /* Скрываем лишний контент */
+  white-space: nowrap; /* Предотвращаем перенос текста на следующую строку */
+  text-overflow: ellipsis; /* Сокращаем текст с многоточием, если не вмещается */
+  transition: 0.2s;
+  &:hover{
+    transition: 0.2s;
+    font-size: 20px;
+  }
+  &.active{
+    color:$text-wh-clr!important;
+    background-color: $dop-clr;
+  }
+  a {
+   color:inherit;
+}
+
+.exit{
+  color:red;
+}
+
+}
+  .main{
+    width: 100%;
+   padding: 30px;
+    margin: 0 40px;
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+ }}

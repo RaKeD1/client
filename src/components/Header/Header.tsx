@@ -27,7 +27,6 @@ const Header = (login: any, setLogin: any) => {
   const [isOpen, setIsOpen] = useState(false); // todo Нужен ли?
   const [component, setComponent] = useState("login");
   const newIsAuth = useAppSelector((state) => state.account.isAuth);
-  console.log(isAuth);
   useEffect(() => {}, [showModal]);
   useEffect(() => {
     console.log("Сменился isAuth", isAuth);

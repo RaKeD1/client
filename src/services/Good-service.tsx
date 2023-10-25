@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import GoodService, { CreateGoodDto } from "../../../../services/GoodService";
+import GoodService, { CreateGoodDto } from "./GoodService";
 
 export const createProduct = createAsyncThunk<void, CreateGoodDto>(
   "admin/createGood",
@@ -18,4 +18,4 @@ export const createProduct = createAsyncThunk<void, CreateGoodDto>(
       }
     }
   },
-);
+); //todo поменять директорию файла

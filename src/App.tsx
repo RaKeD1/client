@@ -18,9 +18,8 @@ import "./app.scss";
 import { useAppDispatch, useAppSelector } from "./redux/hooks/redux";
 import { checkAuth, Status } from "./redux/reducers/AccountSlice";
 import Loading from "./components/Loading";
-import Goods from "./admin/pages/Goods";
-import Admin from "./admin/pages/Main";
 import { RootState } from "./redux/store";
+import AdminPanel from "./components/Admin/AdminPanel";
 
 function App() {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -42,22 +41,21 @@ function App() {
 
   return (
     <>
-      <Header login={login} setLogin={setLogin} />
+      {location.pathname.startsWith("/admin") ? null : (
+        <Header login={login} setLogin={setLogin} />
+      )}
       <div className="content">
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Main />}></Route>
 
-          <Route path="/admin">
-            <Route
-              path=""
-              element={
-                <RequireAuth redirectTo={"/profile"}>
-                  <Admin />
-                </RequireAuth>
-              }
-            ></Route>
-            <Route path="goods" element={<Goods />}></Route>
-          </Route>
+          <Route
+            path="/admin/*"
+            element={
+              <RequireAuth redirectTo="/profile">
+                <AdminPanel />
+              </RequireAuth>
+            }
+          />
           <Route path="/catalog" element={<Catalog />}></Route>
           <Route path="/about" element={<About />}></Route>
           <Route path="/brands" element={<Brands />}></Route>
@@ -75,11 +73,7 @@ function App() {
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
       </div>
-      {location.pathname == "/registration" || location.pathname == "/login" ? (
-        ""
-      ) : (
-        <Footer />
-      )}
+      {location.pathname.startsWith("/admin") ? "" : <Footer />}
     </>
   );
 }
