@@ -6,13 +6,15 @@ import styles from "./adminpanel.module.scss";
 import AdminHeader from "../AdminHeader";
 import TableTypes from "../../../pages/Admin/Types/TableTypes";
 import AddType from "../../../pages/Admin/Types/AddType";
+import AddBrand from "../../../pages/Admin/Brands/AddBrand";
+import TableBrands from "../../../pages/Admin/Brands";
 const pages = [
   { id: 1, title: "Аналитика", path: "analytics" },
   { id: 2, title: "Пользователи", path: "profile" },
   { id: 3, title: "Товары", path: "goods" },
   { id: 4, title: "Заявки", path: "requests" },
   { id: 5, title: "Категории", path: "types/add" },
-  { id: 6, title: "Бренды", path: "brands" },
+  { id: 6, title: "Бренды", path: "brands/add" },
 ];
 const AdminPanel = () => {
   const location = useLocation();
@@ -48,6 +50,10 @@ const AdminPanel = () => {
             <Route path="types">
               <Route path="" element={<TableTypes />} />
               <Route path="add" element={<AddType />} />
+            </Route>
+            <Route path="brands">
+              <Route path="" element={<TableBrands />} />
+              <Route path="add" element={<AddBrand />} />
             </Route>
           </Routes>
         </div>
