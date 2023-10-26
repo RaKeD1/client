@@ -4,12 +4,14 @@ import Goods from "../../../pages/Admin/Goods";
 import Profile from "../../../pages/Profile";
 import styles from "./adminpanel.module.scss";
 import AdminHeader from "../AdminHeader";
+import TableTypes from "../../../pages/Admin/Types/TableTypes";
+import AddType from "../../../pages/Admin/Types/AddType";
 const pages = [
   { id: 1, title: "Аналитика", path: "analytics" },
   { id: 2, title: "Пользователи", path: "profile" },
   { id: 3, title: "Товары", path: "goods" },
   { id: 4, title: "Заявки", path: "requests" },
-  { id: 5, title: "Категории", path: "categories" },
+  { id: 5, title: "Категории", path: "types/add" },
   { id: 6, title: "Бренды", path: "brands" },
 ];
 const AdminPanel = () => {
@@ -37,8 +39,16 @@ const AdminPanel = () => {
         </nav>
         <div className={styles.main}>
           <Routes>
-            <Route path="goods" element={<Goods />} />
+            <Route path="goods">
+              <Route path="" element={<Goods />} />
+              <Route path="add" element={<Goods />} />
+            </Route>
             <Route path="profile" element={<Profile />} />
+            <Route path="categories" />
+            <Route path="types">
+              <Route path="" element={<TableTypes />} />
+              <Route path="add" element={<AddType />} />
+            </Route>
           </Routes>
         </div>
       </div>
