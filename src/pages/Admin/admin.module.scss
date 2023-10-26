@@ -37,6 +37,26 @@ justify-content: space-between;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
       }
     }
+
+    select {
+      background-color: transparent;
+      border:none;
+      border-bottom: $dop-clr solid 1px;
+      padding: 10px 5px;
+      color: $main-clr;
+      font-size: 15px;
+      margin: 10px 0 20px 0;
+      &::placeholder{
+        color: #cccccc;
+      }
+      &:focus{
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      }
+      option{
+        padding: 30px;
+        border:none;
+      }
+    }
     .check_box{
       margin-right: 10px;
     }
