@@ -1,14 +1,16 @@
 import axios from "axios";
 
-export const API_URL = `http://localhost:5000/api`;
-export const AUTH_URL = `http://localhost:5000/auth`;
-const $api  = axios.create({
-    withCredentials: true,
-    baseURL:`http://localhost:5000/`
-})
-$api.interceptors.request.use((config)=>{
-    config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
-    return config;
-})
-
+const $api = axios.create({
+  withCredentials: true,
+  baseURL: process.env.REACT_APP_API_URL,
+});
+const $auth = axios.create({
+  withCredentials: true,
+  baseURL: process.env.REACT_APP_AUTH_URL,
+});
+$api.interceptors.request.use((config) => {
+  config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
+  return config;
+});
+export { $auth };
 export default $api;

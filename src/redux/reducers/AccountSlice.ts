@@ -90,7 +90,6 @@ export const checkAuth = createAsyncThunk<void, void>(
   async () => {
     try {
       const response = await AuthService.refresh();
-      console.log("RESPONSE", response);
       return response;
     } catch (error: any) {
       //fixme исправить тип с any на другой
@@ -209,7 +208,6 @@ export const accountSlice = createSlice({
       if (action.payload.data.accessToken) {
         localStorage.setItem("token", action.payload.data.accessToken);
         state.user = action.payload.data.user;
-        console.log("action.account", action.payload.data);
         state.status = Status.SUCCESS;
         localStorage.setItem("token", action.payload.data.accessToken);
         // localStorage.setItem('role');
@@ -224,7 +222,6 @@ export const accountSlice = createSlice({
     },
     [checkAuth.pending.type]: (state) => {
       state.status = Status.LOADING;
-      console.log("pending auth");
     },
     [checkAuth.rejected.type]: (state) => {
       state.status = Status.ERROR;
