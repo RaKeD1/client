@@ -48,9 +48,10 @@ const AddType = () => {
             {categories && categories.length > 0 ? (
               <select {...register("parent", { required: false })}>
                 <>
-                  <option selected value={undefined}>
-                    Нет
-                  </option>
+                  {/*<option selected value={undefined}>*/}
+                  {/*  Нет*/}
+                  {/*</option>*/}
+                  {/*//todo исправить возможность добавление без категории*/}
                   {categories.map((item) => (
                     <option key={item.id} value={item.id}>
                       {item.type_name}
