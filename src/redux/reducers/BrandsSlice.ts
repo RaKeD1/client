@@ -4,6 +4,7 @@ import { AuthResponse } from "../../models/response/AuthResponse";
 import { Status } from "./AccountSlice";
 import { IBrand } from "../../models/IBrand";
 import BrandsService from "../../services/BrandsService";
+import { BrandsResponse } from "../../models/response/BrandsResponse";
 
 interface brandsState {
   brands: IBrand[] | null;
@@ -19,7 +20,7 @@ interface brandsParams {
 }
 
 export const addBrand = createAsyncThunk<
-  AxiosResponse<AuthResponse>,
+  AxiosResponse<BrandsResponse>,
   brandsParams
 >("brands/addStatus", async (params, { rejectWithValue }) => {
   try {
@@ -84,7 +85,7 @@ export const brandsSlice = createSlice({
       state.isLoading = false;
       state.error = "";
       state.brands = action.payload.data;
-      console.log("Категории: ", action.payload.data);
+      console.log("Бренды: ", action.payload.data);
     },
     [fetchBrands.pending.type]: (state) => {
       state.isLoading = true;
