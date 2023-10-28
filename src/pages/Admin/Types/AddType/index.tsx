@@ -45,29 +45,26 @@ const AddType = () => {
           </div>
           <div className={styles.input_box}>
             <label>Выбирите родительскую категорию:</label>
-            <select {...register("parent", { required: false })}>
-              <>
-                {categories && categories.length > 0 ? (
-                  <>
-                    <option selected value={undefined}>
-                      Нет
-                    </option>
-                    {categories.map((item) => (
-                      <option key={item.id} value={item.id}>
-                        {item.type_name}
-                      </option>
-                    ))}
-                  </>
-                ) : (
-                  <option disabled selected>
-                    Нет доступных категорий для выбора
+            {categories && categories.length > 0 ? (
+              <select {...register("parent", { required: false })}>
+                <>
+                  <option selected value={undefined}>
+                    Нет
                   </option>
-                )}
-              </>
-            </select>
+                  {categories.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.type_name}
+                    </option>
+                  ))}
+                </>
+              </select>
+            ) : (
+              <span style={{ color: "red", margin: "20px 0" }}>
+                Нет доступных категорий для выбора, сначала создайте категорию
+              </span>
+            )}
           </div>
         </div>
-
         <button type="submit">Создать</button>
       </form>
     </>
