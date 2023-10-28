@@ -3,12 +3,14 @@ import userReducer from "./reducers/UserSlice";
 import accountReducer from "./reducers/AccountSlice";
 import categoriesReducer from "./reducers/CategoriesSlice";
 import brandsReducer from "./reducers/BrandsSlice";
+import goodsReducer from "./reducers/GoodsSlice";
 
 const rootReducer = combineReducers({
   userReducer,
   account: accountReducer,
   categories: categoriesReducer,
   brands: brandsReducer,
+  goods: goodsReducer,
 });
 
 export const store = configureStore({
@@ -17,6 +19,8 @@ export const store = configureStore({
     user: userReducer,
     account: accountReducer,
     categories: categoriesReducer,
+    brands: brandsReducer,
+    goods: goodsReducer,
   },
 });
 
