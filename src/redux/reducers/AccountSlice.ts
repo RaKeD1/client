@@ -11,9 +11,11 @@ const localAuth = (local: string) => {
   else return null;
 };
 export enum Status {
-  LOADING = "loading",
+  LOADING = "info",
   SUCCESS = "success",
   ERROR = "error",
+  INFO = "info",
+  WARNING = "warning",
 }
 
 interface accountState {
@@ -21,7 +23,7 @@ interface accountState {
   isLoading: boolean;
   error: string;
   isAuth: boolean | null;
-  status: Status;
+  status: Status | undefined;
 }
 interface userResponse {
   data: loginData;

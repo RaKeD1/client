@@ -4,12 +4,14 @@ import { AuthResponse } from "../../models/response/AuthResponse";
 import { Status } from "./AccountSlice";
 import CategoriesService from "../../services/CategoriesService";
 import { ICategories } from "../../models/ICategories";
-
+import { CategoriesResponse } from "../../models/response/CategoriesResponse";
+import { Alert } from "antd";
 interface categoriesState {
   categories: ICategories[] | null;
   isLoading: boolean;
   error: string;
   status: Status;
+  message: string;
 }
 interface categoriesParams {
   type_name: string;
@@ -18,7 +20,7 @@ interface categoriesParams {
 }
 
 export const addCategories = createAsyncThunk<
-  AxiosResponse<AuthResponse>,
+  AxiosResponse<void>,
   categoriesParams
 >("categories/addStatus", async (params, { rejectWithValue }) => {
   try {
@@ -50,6 +52,7 @@ const initialState: categoriesState = {
   isLoading: false,
   error: "",
   status: Status.SUCCESS,
+  message: "",
 };
 export const categoriesSlice = createSlice({
   name: "categories",
@@ -73,17 +76,20 @@ export const categoriesSlice = createSlice({
       state.status = Status.SUCCESS;
       state.isLoading = false;
       state.error = "";
+      state.message = action.payload.data.message;
     },
     [addCategories.pending.type]: (state) => {
       state.isLoading = true;
       state.status = Status.LOADING;
       state.error = "";
+      state.message = "Загрузка";
     },
     [addCategories.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.status = Status.ERROR;
       state.error = action.payload;
       console.log(action.payload);
+      state.message = "Ошибка создания категории";
     },
     [fetchCategories.fulfilled.type]: (state, action) => {
       state.status = Status.SUCCESS;
