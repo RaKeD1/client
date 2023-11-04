@@ -1,4 +1,4 @@
-@import '../../scss/vars';
+@import '../../../scss/vars';
 
 .box_search {
   width: 400px;
@@ -13,8 +13,7 @@
     font-weight: 600;
     width: 70%;
     transition: all 0.4s;
-    &:focus,
-    focus-visible {
+    &:focus, :focus-visible {
       &::placeholder {
         color: $text-clr;
       }

@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { useContext, useEffect, useReducer, useState } from "react";
+import { useEffect, useState } from "react";
 
 import NotFound from "./pages/NotFound";
 import Header from "./components/Header/Header";
@@ -17,15 +17,11 @@ import Cart from "./pages/Cart";
 import "./app.scss";
 import { useAppDispatch, useAppSelector } from "./redux/hooks/redux";
 import { checkAuth, Status } from "./redux/reducers/AccountSlice";
-import Loading from "./components/Loading";
+import Loading from "./components/common/Loading";
 import { RootState } from "./redux/store";
 import AdminPanel from "./components/Admin/AdminPanel";
 
 function App() {
-  const [isAuth, setIsAuth] = useState<boolean>(false);
-  const newIsAuth = localStorage.isAuth;
-  const isLoading = useAppSelector((state) => state.account.isLoading);
-
   const dispatch = useAppDispatch();
   // const state = useAppSelector(state=>state.userReducer);
   const location = useLocation();

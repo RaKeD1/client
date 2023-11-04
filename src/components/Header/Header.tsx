@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { memo, useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 import styles from "./header.module.scss";
 
-import SearchBar from "../SearchBar";
+import SearchBar from "../common/SearchBar";
 import classNames from "classnames";
 import { useAppSelector } from "../../redux/hooks/redux";
-import Modal from "../Modal";
+import Modal from "../common/Modal";
 import Login from "../Auth/Login";
 import Registration from "../Auth/Registration";
 
@@ -18,13 +18,27 @@ const pages = [
   { id: 5, title: "Бренды", path: "/brands" },
   { id: 6, title: "Контакты", path: "/contacts" },
 ];
+
+const StyledLink = memo((props: any) => {
+  const { page, isActive } = props;
+  return (
+    <Link
+      key={page.id}
+      color="primary"
+      className={isActive(page.path) ? styles.active : ""}
+      to={page.path}
+    >
+      {page.title}
+    </Link>
+  );
+});
+
 const Header = (login: any, setLogin: any) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const location = useLocation();
   const itemCart = 33;
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [isAuth, setIsAuth] = useState<boolean | null>(false);
-  const [isOpen, setIsOpen] = useState(false); // todo Нужен ли?
   const [component, setComponent] = useState("login");
   const newIsAuth = useAppSelector((state) => state.account.isAuth);
   useEffect(() => {}, [showModal]);
@@ -58,14 +72,11 @@ const Header = (login: any, setLogin: any) => {
       </div>
       <div className={styles.menu}>
         {pages.map((page) => (
-          <Link
+          <StyledLink
             key={page.id}
-            color="primary"
-            className={isActive(page.path) ? styles.active : ""}
-            to={page.path}
-          >
-            {page.title}
-          </Link>
+            isActive={() => isActive(page.path)}
+            page={page}
+          />
         ))}
       </div>
       {isSmallScreen ? <SearchBar /> : ""}
@@ -103,5 +114,6 @@ const Header = (login: any, setLogin: any) => {
     </header>
   );
 };
+const MemoizedHeader = memo(Header);
 
-export default Header;
+export default MemoizedHeader;
