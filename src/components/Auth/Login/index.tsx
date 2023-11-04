@@ -1,10 +1,7 @@
-import { FC, useLayoutEffect, useState } from "react";
+import { FC, useState } from "react";
 import styles from "./login.module.scss";
 import { useAppDispatch } from "../../../redux/hooks/redux";
 import { loginAccount } from "../../../redux/reducers/AccountSlice";
-import { Link } from "react-router-dom";
-import Modal from "../../Modal";
-import Registration from "../Registration";
 
 interface LoginProps {
   setComponent: (value: string) => void;
@@ -13,7 +10,6 @@ interface LoginProps {
 export const Login: FC<LoginProps> = ({ setComponent }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [registrModal, setRegistrModal] = useState(false);
   const dispatch = useAppDispatch();
   // useLayoutEffect(() => {
   //   console.log(login);
