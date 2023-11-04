@@ -1,7 +1,7 @@
 export interface IGood {
   id: number;
-  good_name: string;
-  img: string;
+  name: string;
+  main_img: string;
   price: number;
   description: string;
   secret: boolean;
@@ -9,4 +9,5 @@ export interface IGood {
   storage: number;
   brandId?: number;
   typeId: number;
+  imgs: string[];
 }

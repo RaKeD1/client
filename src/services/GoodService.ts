@@ -10,11 +10,13 @@ export interface CreateGoodDto {
   secret: boolean;
   typeId: number;
   brandId: number;
+  imgs: File[];
+  main_img: File[];
 }
 export default class GoodService {
-  static async create(params: CreateGoodDto) {
+  static async create(params: any) {
     console.log("params ", params);
-    return $api.post("/goods", { ...params });
+    return $api.post("/goods", params);
   }
   static async getAll(): Promise<AxiosResponse<GoodsResponse>> {
     return $api.get("/goods");

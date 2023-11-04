@@ -1,13 +1,9 @@
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosResponse } from "axios";
-import { AuthResponse } from "../../models/response/AuthResponse";
 import { Status } from "./AccountSlice";
-import { IBrand } from "../../models/IBrand";
-import BrandsService from "../../services/BrandsService";
 import GoodService, { CreateGoodDto } from "../../services/GoodService";
 import { IGood } from "../../models/IGood";
 import { GoodsResponse } from "../../models/response/GoodsResponse";
-import ToolTipComponent from "../../components/common/ToolTipComponent";
 
 interface goodsState {
   goods: IGood[] | null;
@@ -22,9 +18,49 @@ export const createProduct = createAsyncThunk<
   CreateGoodDto
 >("goods/createGood", async (params, { rejectWithValue }) => {
   try {
-    const { description, name, typeId, brandId, secret, storage, price } =
-      params;
-    const response = await GoodService.create(params);
+    const {
+      description,
+      name,
+      typeId,
+      brandId,
+      secret,
+      storage,
+      price,
+      main_img,
+      imgs,
+    } = params;
+    const formData = new FormData();
+
+    formData.append("name", params.name);
+    formData.append("typeId", params.typeId.toString());
+    formData.append("brandId", params.brandId.toString());
+    formData.append("price", params.price.toString());
+    formData.append("storage", params.storage.toString());
+    formData.append("secret", params.secret ? "1" : "0");
+    if (params.description) {
+      formData.append("description", params.description);
+    }
+    if (params.main_img) {
+      formData.append("main_img", params.main_img[0]);
+    }
+
+    // Handle imgs array if needed
+    if (params.imgs) {
+      for (const key in params.imgs) {
+        if (Object.prototype.hasOwnProperty.call(params.imgs, key)) {
+          const img = params.imgs[key];
+          console.log("img123", img);
+          formData.append("imgs", img);
+        }
+      }
+    }
+
+    if (formData.has("name")) {
+      console.log("Не пустой и имеет name");
+    } else {
+      console.log("Пустой");
+    }
+    const response = await GoodService.create(formData);
     return response;
   } catch (error: any) {
     //todo исправить тип с any на другой
@@ -91,7 +127,7 @@ export const goodsSlice = createSlice({
       state.isLoading = false;
       state.error = "";
       state.res = "";
-      state.goods = action.payload.data;
+      state.goods = action.payload.data.goods;
       console.log("Товары: ", action.payload.data);
     },
     [fetchGoods.pending.type]: (state) => {

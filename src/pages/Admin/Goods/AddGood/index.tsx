@@ -6,22 +6,21 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { fetchCategories } from "../../../../redux/reducers/CategoriesSlice";
 import { fetchBrands } from "../../../../redux/reducers/BrandsSlice";
 import { createProduct } from "../../../../redux/reducers/GoodsSlice";
-import ToolTipComponent from "../../../../components/common/ToolTipComponent";
 
 const AddGood: FC = () => {
   const dispath = useAppDispatch();
   const categories = useAppSelector((state) => state.categories.categories);
   const brands = useAppSelector((state) => state.brands.brands);
-  const { status, error, res } = useAppSelector((state) => state.goods);
+  const { status } = useAppSelector((state) => state.goods);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<CreateGoodDto>();
   const onSubmit: SubmitHandler<CreateGoodDto> = (data) => {
-    console.log("adadata", data);
+    console.log("dataGood", data);
     console.log("errors", errors);
-    console.log({ ...data });
+
     dispath(createProduct({ ...data }));
   };
   useEffect(() => {
@@ -33,23 +32,19 @@ const AddGood: FC = () => {
   }, [status]);
   return (
     <>
-      {status ? (
-        <ToolTipComponent
-          type={status}
-          message={status !== "success" ? error : res}
-        />
-      ) : (
-        ""
-      )}
       <h2>Добавление товаров</h2>
-      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className={styles.form}
+        onSubmit={handleSubmit(onSubmit)}
+        encType="multipart/form-data"
+      >
         <div className={styles.container}>
           <div className={styles.input_box}>
             <label>Название товара:</label>
             <input
               placeholder="Например: Asus GeForce RTX 3060Ti OC 8Gb LHR V2 (DUAL-RTX3060TI-O8G-V2)"
               type="text"
-              {...register("name", { required: true, maxLength: 60 })}
+              {...register("name", { required: true, maxLength: 300 })}
             />
           </div>
           <div className={styles.input_box}>
@@ -123,10 +118,35 @@ const AddGood: FC = () => {
             </label>
           </div>
           <div className={styles.input_box}>
+            <label>Главное изображение:</label>
+            <label>
+              <input
+                type="file"
+                //multiple
+                accept="image/png, image/jpeg"
+                {...register("main_img", { required: false })}
+              />
+            </label>
+          </div>
+          <div className={styles.input_box}>
+            <label>Фото к товару:</label>
+            <label>
+              <input
+                type="file"
+                multiple
+                accept="image/png, image/jpeg"
+                {...register("imgs", { required: false })}
+              />
+            </label>
+          </div>
+          <div className={styles.input_box}>
             <label>Описание:</label>
             <textarea
               placeholder="Описание товара"
-              {...register("description", { required: false, maxLength: 320 })}
+              {...register("description", {
+                required: false,
+                maxLength: 320,
+              })}
             />
           </div>
         </div>

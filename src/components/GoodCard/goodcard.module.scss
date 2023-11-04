@@ -1,0 +1,17 @@
+@import "../../scss/_vars.scss";
+
+.box{
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  .title{
+    color:$text-clr;
+  }
+  .price{
+    color:$text-clr;
+    font-weight: 600;
+  }
+}
+img{
+  max-width: 250px;
+}
