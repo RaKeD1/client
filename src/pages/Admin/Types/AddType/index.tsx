@@ -32,7 +32,7 @@ const AddType = () => {
 
   return (
     <>
-      <h2>Добавление категории</h2>
+      <h2 className={styles.h2}>Добавление категории</h2>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.container}>
           <div className={styles.input_box}>

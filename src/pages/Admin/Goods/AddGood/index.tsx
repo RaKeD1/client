@@ -32,7 +32,7 @@ const AddGood: FC = () => {
   }, [status]);
   return (
     <>
-      <h2>Добавление товаров</h2>
+      <h2 className={styles.h2}>Добавление товаров</h2>
       <form
         className={styles.form}
         onSubmit={handleSubmit(onSubmit)}

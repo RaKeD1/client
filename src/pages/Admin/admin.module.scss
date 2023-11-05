@@ -2,12 +2,19 @@
 @import "../../scss/vars";
 
 
-h2{
+.h2{
   text-align: center;
   margin: 0 0 20px 0;
 }
+.h3 {
+  color:$text-clr;
+  margin: 0 0 20px 0;
+  font-size: 20px;
+  text-align: center;
+}
 
 form{
+  margin:20px 0;
 .container {
   display: flex;
   flex-wrap: wrap;

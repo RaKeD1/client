@@ -17,6 +17,7 @@ const GoodCard: FC<GoodCardPromise> = ({ main_img, name, price }) => {
         {/* </div>*/}
         <div>
           <img
+            className={styles.img}
             src={process.env.REACT_APP_API_URL + "/good/" + main_img}
             alt={"GoodPhoto"}
           />
