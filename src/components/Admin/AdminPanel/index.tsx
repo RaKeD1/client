@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import Goods from "../../../pages/Admin/Goods";
 import Profile from "../../../pages/Profile";
@@ -9,6 +9,7 @@ import AddType from "../../../pages/Admin/Types/AddType";
 import AddBrand from "../../../pages/Admin/Brands/AddBrand";
 import TableBrands from "../../../pages/Admin/Brands";
 import AddGood from "../../../pages/Admin/Goods/AddGood";
+import AddSliderHome from "../../../pages/Admin/SliderHome/addSlider";
 const pages = [
   { id: 1, title: "Аналитика", path: "analytics" },
   { id: 2, title: "Пользователи", path: "profile" },
@@ -16,6 +17,7 @@ const pages = [
   { id: 4, title: "Заявки", path: "requests" },
   { id: 5, title: "Категории", path: "types/add" },
   { id: 6, title: "Бренды", path: "brands/add" },
+  { id: 7, title: "Слайдеры", path: "slider/add" },
 ];
 const AdminPanel = () => {
   const location = useLocation();
@@ -55,6 +57,10 @@ const AdminPanel = () => {
             <Route path="brands">
               <Route path="" element={<TableBrands />} />
               <Route path="add" element={<AddBrand />} />
+            </Route>
+            <Route path="slider">
+              <Route path="" element={""} />
+              <Route path="add" element={<AddSliderHome />} />
             </Route>
           </Routes>
         </div>

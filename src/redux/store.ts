@@ -4,6 +4,7 @@ import accountReducer from "./reducers/AccountSlice";
 import categoriesReducer from "./reducers/CategoriesSlice";
 import brandsReducer from "./reducers/BrandsSlice";
 import goodsReducer from "./reducers/GoodsSlice";
+import sliderReducer from "./reducers/SliderSlice";
 
 const rootReducer = combineReducers({
   userReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   categories: categoriesReducer,
   brands: brandsReducer,
   goods: goodsReducer,
+  sliders: sliderReducer,
 });
 
 export const store = configureStore({
@@ -21,6 +23,7 @@ export const store = configureStore({
     categories: categoriesReducer,
     brands: brandsReducer,
     goods: goodsReducer,
+    sliders: sliderReducer,
   },
 });
 
