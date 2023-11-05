@@ -1,4 +1,4 @@
-import { FC, ReactNode, useRef } from "react";
+import { FC, memo, ReactNode, useRef } from "react";
 import styles from "./modal.module.scss";
 import classNames from "classnames";
 import { FaTimes } from "react-icons/fa";
@@ -35,5 +35,5 @@ const Modal: FC<ModalProps> = ({ isActive, setIsActive, children }) => {
     </div>
   );
 };
-
-export default Modal;
+const MemoizedModal = memo(Modal);
+export default MemoizedModal;
