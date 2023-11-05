@@ -9,6 +9,7 @@ interface AddBrandDTO {
   brand_logo?: string;
   description?: string;
   url?: string;
+  img?: File[];
 }
 const AddBrand = () => {
   const dispath = useAppDispatch();
@@ -21,7 +22,6 @@ const AddBrand = () => {
   const onSubmit: SubmitHandler<AddBrandDTO> = (data) => {
     console.log(data);
     console.log("errors", errors);
-    console.log({ ...data });
     dispath(addBrand({ ...data }));
   };
 
@@ -46,18 +46,17 @@ const AddBrand = () => {
               {...register("url", { required: false, maxLength: 120 })}
             />
           </div>
-          {/*<div className={styles.input_box}>*/}
-          {/*  <label>Название категории:</label>*/}
-          {/*  <input*/}
-          {/*    type="text"*/}
-          {/*    placeholder="Логотип"*/}
-          {/*    {...register("brand_name", { required: true, maxLength: 60 })}*/}
-          {/*  />*/}
-          {/*</div>*/}
+          <div className={styles.input_box}>
+            <label>Фоновое изображение:</label>
+            <input
+              type="file"
+              accept="image/png, image/jpeg"
+              {...register("brand_logo", { required: false })}
+            />
+          </div>
           <div className={styles.input_box}>
             <label>Описание бренда:</label>
-            <input
-              type="text"
+            <textarea
               placeholder="Описание"
               {...register("description", { required: false, maxLength: 600 })}
             />

@@ -6,7 +6,7 @@ export interface CreateTypeDto {
   url?: string;
 }
 export default class BrandsService {
-  static async create(params: CreateTypeDto) {
+  static async create(params: any) {
     console.log("params ", params);
     return $api.post("/brands", params);
   }

@@ -5,6 +5,7 @@ import { Status } from "./AccountSlice";
 import { IBrand } from "../../models/IBrand";
 import BrandsService from "../../services/BrandsService";
 import { BrandsResponse } from "../../models/response/BrandsResponse";
+import { message } from "antd";
 
 interface brandsState {
   brands: IBrand[] | null;
@@ -18,7 +19,7 @@ interface brandsParams {
   description?: string;
   url?: string;
 }
-
+let activeMessage: any = null;
 export const addBrand = createAsyncThunk<
   AxiosResponse<BrandsResponse>,
   brandsParams
@@ -26,12 +27,18 @@ export const addBrand = createAsyncThunk<
   try {
     const { brand_name, brand_logo, description, url } = params;
     console.log("addBrand", params);
-    const response = await BrandsService.create({
-      brand_name,
-      brand_logo,
-      description,
-      url,
-    });
+    const formData = new FormData();
+    formData.append("brand_name", brand_name);
+    if (brand_logo) {
+      formData.append("brand_logo", brand_logo[0]);
+    }
+    if (description) {
+      formData.append("description", description);
+    }
+    if (url) {
+      formData.append("url", url);
+    }
+    const response = await BrandsService.create(formData);
     console.log("addBrand", response);
     return response;
   } catch (error: any) {
@@ -67,18 +74,29 @@ export const brandsSlice = createSlice({
       state.status = Status.SUCCESS;
       state.isLoading = false;
       state.error = "";
+      if (activeMessage) {
+        activeMessage();
+      }
+      activeMessage = message.success(action.payload.data.message, 3);
       //todo сделать возможность добавлять вывод сообщения о том что бренд создан
     },
     [addBrand.pending.type]: (state) => {
       state.isLoading = true;
       state.status = Status.LOADING;
       state.error = "";
+      if (activeMessage) {
+        activeMessage();
+      }
+      activeMessage = message.loading("Отправка на сервер", 0);
     },
     [addBrand.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.status = Status.ERROR;
       state.error = action.payload;
-      console.log(action.payload);
+      if (activeMessage) {
+        activeMessage();
+      }
+      activeMessage = message.error(action.payload, 3);
     },
     [fetchBrands.fulfilled.type]: (state, action) => {
       state.status = Status.SUCCESS;
