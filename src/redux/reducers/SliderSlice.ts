@@ -4,12 +4,14 @@ import { Status } from "./AccountSlice";
 import { ISliderHome } from "../../models/Slider/ISliderHome";
 import { CreateSliderHomeDto } from "../../pages/Admin/SliderHome/addSlider";
 import SliderService from "../../services/SliderService";
+import { message } from "antd";
 interface sliderState {
   sliderHome: ISliderHome[] | null;
   isLoading: boolean;
   error: string;
   status: Status | null;
 }
+let activeMessage: any = null;
 
 export const createSlideHome = createAsyncThunk<
   AxiosResponse<void>,
@@ -90,18 +92,28 @@ export const sliderSlice = createSlice({
       state.status = Status.SUCCESS;
       state.isLoading = false;
       state.error = "";
-      //todo сделать возможность добавлять вывод сообщения о том что товар создан
+      if (activeMessage) {
+        activeMessage();
+      }
+      activeMessage = message.success(action.payload.data.message, 3);
     },
     [createSlideHome.pending.type]: (state) => {
       state.isLoading = true;
       state.status = Status.LOADING;
       state.error = "";
+      if (activeMessage) {
+        activeMessage();
+      }
+      activeMessage = message.loading("Отправка на сервер", 0);
     },
     [createSlideHome.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.status = Status.ERROR;
       state.error = action.payload;
-      console.log(action.payload);
+      if (activeMessage) {
+        activeMessage();
+      }
+      activeMessage = message.error(action.payload, 3);
     },
 
     [fetchSliderHome.fulfilled.type]: (state, action) => {

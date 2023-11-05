@@ -17,6 +17,7 @@ interface categoriesParams {
   parent?: number | null;
   img?: string;
 }
+let activeMessage: any = null;
 
 export const addCategories = createAsyncThunk<
   AxiosResponse<void>,
@@ -74,18 +75,28 @@ export const categoriesSlice = createSlice({
       state.status = Status.SUCCESS;
       state.isLoading = false;
       state.error = "";
-      message.success(action.payload.data.message); //fixme два раза отображается всплывающее уведомление
+      if (activeMessage) {
+        activeMessage();
+      }
+      activeMessage = message.success(action.payload.data.message, 3);
     },
     [addCategories.pending.type]: (state) => {
       state.isLoading = true;
       state.status = Status.LOADING;
       state.error = "";
+      if (activeMessage) {
+        activeMessage();
+      }
+      activeMessage = message.loading("Отправка на сервер", 0);
     },
     [addCategories.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.status = Status.ERROR;
       state.error = action.payload;
-      message.error(action.payload); //fixme два раза отображается всплывающее уведомление
+      if (activeMessage) {
+        activeMessage();
+      }
+      activeMessage = message.error(action.payload, 3); //fixme два раза отображается всплывающее уведомление
     },
     [fetchCategories.fulfilled.type]: (state, action) => {
       state.status = Status.SUCCESS;

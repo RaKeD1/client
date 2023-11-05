@@ -4,14 +4,15 @@ import { Status } from "./AccountSlice";
 import GoodService, { CreateGoodDto } from "../../services/GoodService";
 import { IGood } from "../../models/IGood";
 import { GoodsResponse } from "../../models/response/GoodsResponse";
+import { message } from "antd";
 
 interface goodsState {
   goods: IGood[] | null;
   isLoading: boolean;
   error: string;
   status: Status | null;
-  res: string;
 }
+let activeMessage: any = null;
 
 export const createProduct = createAsyncThunk<
   AxiosResponse<void>,
@@ -94,7 +95,6 @@ const initialState: goodsState = {
   isLoading: false,
   error: "",
   status: null,
-  res: "",
 };
 export const goodsSlice = createSlice({
   name: "goods",
@@ -105,28 +105,34 @@ export const goodsSlice = createSlice({
       state.status = Status.SUCCESS;
       state.isLoading = false;
       state.error = "";
-
-      state.res = action.payload.data.message;
-      console.log(state.res);
-      //todo сделать возможность добавлять вывод сообщения о том что товар создан
+      if (activeMessage) {
+        activeMessage();
+      }
+      activeMessage = message.success(action.payload.data.message, 3);
     },
     [createProduct.pending.type]: (state) => {
       state.isLoading = true;
       state.status = Status.LOADING;
-      state.res = "";
       state.error = "";
+      if (activeMessage) {
+        activeMessage();
+      }
+      activeMessage = message.loading("Отправка на сервер", 0);
     },
     [createProduct.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.status = Status.ERROR;
       state.error = action.payload;
+      if (activeMessage) {
+        activeMessage();
+      }
+      activeMessage = message.error(action.payload, 3);
       console.log(action.payload);
     },
     [fetchGoods.fulfilled.type]: (state, action) => {
       state.status = Status.SUCCESS;
       state.isLoading = false;
       state.error = "";
-      state.res = "";
       state.goods = action.payload.data.goods;
       console.log("Товары: ", action.payload.data);
     },
