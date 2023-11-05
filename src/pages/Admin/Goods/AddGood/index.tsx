@@ -73,23 +73,21 @@ const AddGood: FC = () => {
           </div>
           <div className={styles.input_box}>
             <label>Бренд:</label>
-            <select {...register("brandId", { required: false })}>
-              <>
-                {brands && brands.length > 0 ? (
-                  <>
-                    {brands.map((item) => (
-                      <option key={item.id} value={item.id}>
-                        {item.brand_name}
-                      </option>
-                    ))}
-                  </>
-                ) : (
-                  <option disabled selected>
-                    Нет доступных брендов для выбора
-                  </option>
-                )}
-              </>
-            </select>
+            {brands && brands.length > 0 ? (
+              <select {...register("brandId", { required: false })}>
+                <>
+                  {brands.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.brand_name}
+                    </option>
+                  ))}
+                </>
+              </select>
+            ) : (
+              <span style={{ color: "red", margin: "20px 0" }}>
+                Нет доступных брендов для выбора, сначала создайте бренд
+              </span>
+            )}
           </div>
           <div className={styles.input_box}>
             <label>Цена:</label>
