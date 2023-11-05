@@ -8,7 +8,7 @@ nav {
   display: flex;
   margin:40px 0;
 
-li {
+.li {
   padding: 20px;
   background-color: transparent;
   border-radius: 30px;
@@ -29,7 +29,7 @@ li {
     color:$text-wh-clr!important;
     background-color: $dop-clr;
   }
-  a {
+  .a {
    color:inherit;
 }
 
