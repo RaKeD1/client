@@ -1,7 +1,6 @@
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchAccount } from "./ActionCreator";
 import { IAccount } from "../../models/IAccount";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { AuthResponse } from "../../models/response/AuthResponse";
 import AuthService from "../../services/AuthService";
 
@@ -62,7 +61,7 @@ export const loginAccount = createAsyncThunk<
 export const registrAccount = createAsyncThunk<
   AxiosResponse<AuthResponse>,
   registrParams
->("user/registrStatus", async (params, { rejectWithValue }) => {
+>("account/registrStatus", async (params, { rejectWithValue }) => {
   try {
     const { email, password } = params;
     const response = await AuthService.registration(email, password);
@@ -76,7 +75,7 @@ export const registrAccount = createAsyncThunk<
 });
 
 export const logoutAccount = createAsyncThunk<void, void>(
-  "user/logoutStatus",
+  "account/logoutStatus",
   async () => {
     try {
       await AuthService.logout();
@@ -88,7 +87,7 @@ export const logoutAccount = createAsyncThunk<void, void>(
 );
 
 export const checkAuth = createAsyncThunk<void, void>(
-  "user/checkAuthStatus",
+  "account/checkAuthStatus",
   async () => {
     try {
       const response = await AuthService.refresh();
@@ -177,7 +176,7 @@ export const accountSlice = createSlice({
       state.error = action.payload;
     },
 
-    [logoutAccount.fulfilled.type]: (state, action) => {
+    [logoutAccount.fulfilled.type]: (state) => {
       state.status = Status.SUCCESS;
       localStorage.removeItem("token");
       // localStorage.removeItem('role');
@@ -187,7 +186,7 @@ export const accountSlice = createSlice({
     [logoutAccount.pending.type]: (state) => {
       state.status = Status.LOADING;
     },
-    [logoutAccount.rejected.type]: (state, action: PayloadAction<string>) => {
+    [logoutAccount.rejected.type]: (state) => {
       state.status = Status.ERROR;
     },
     // [fetchAccount.fulfilled.type]: (
@@ -207,7 +206,12 @@ export const accountSlice = createSlice({
     //   state.error = action.payload;
     // },
     [checkAuth.fulfilled.type]: (state, action) => {
-      if (action.payload.data.accessToken) {
+      if (!action.payload) {
+        state.isAuth = false;
+        state.user = null;
+        state.status = Status.SUCCESS;
+        localStorage.isAuth = false;
+      } else if (action.payload.data?.accessToken) {
         localStorage.setItem("token", action.payload.data.accessToken);
         state.user = action.payload.data.user;
         state.status = Status.SUCCESS;
