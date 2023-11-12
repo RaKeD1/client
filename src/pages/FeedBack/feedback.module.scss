@@ -1,0 +1,68 @@
+@import "../../scss/libs/normalize";
+@import "../../scss/vars";
+@import "../../app";
+
+
+.content{
+  background-color: $main-clr;
+  color: $text-wh-clr;
+}
+.page {
+  background-color:$main-clr;
+  height: 100%;
+  .feedback{
+    display: flex;
+    flex-direction: column;
+    h2{
+      color:$dop-clr;
+      margin: 0 auto;
+
+    }
+  .form{
+    .container{
+      margin: 0 30px;
+      .input_box{
+        color:$text-wh-clr;
+        display: flex;
+        flex-direction: column;
+        margin: 0 30px;
+        label{
+          color:$text-wh-clr;
+          margin:15px 0;
+        }
+        select{
+          background-color: transparent;
+          color:$text-wh-clr;
+          border-radius: 0;
+          border: solid $dop-clr 1px;
+          font-size: 20px;
+          padding: 10px 20px;
+          .option{
+            color:$text-wh-clr;
+            background-color: $main-clr;
+          }
+        }
+        input{
+          font-size: 20px;
+          background-color: transparent;
+          padding: 10px 20px;
+          border-radius: 0;
+          border: solid $dop-clr 1px;
+        }
+        textarea{
+           color:inherit;
+            background-color: transparent;
+          border-radius: 0;
+          border: solid $dop-clr 1px;
+          font-size: 17px;
+          width: 100%;
+          resize: none;
+          height: 300px;
+          margin-bottom: 20px;
+
+        }
+      }
+    }
+  }
+  }
+}

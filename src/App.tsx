@@ -20,6 +20,8 @@ import { checkAuth, Status } from "./redux/reducers/AccountSlice";
 import Loading from "./components/common/Loading";
 import { RootState } from "./redux/store";
 import AdminPanel from "./components/Admin/AdminPanel";
+import FeedBack from "./pages/FeedBack";
+import WhereBuy from "./pages/WhereBuy";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -55,8 +57,10 @@ function App() {
           <Route path="/catalog" element={<Catalog />}></Route>
           <Route path="/about" element={<About />}></Route>
           <Route path="/brands" element={<Brands />}></Route>
+          <Route path="/shops" element={<WhereBuy />}></Route>
           <Route path="/contacts" element={<Contacts />}></Route>
           <Route path="/projects" element={<Projects />}></Route>
+          <Route path="/feedback" element={<FeedBack />}></Route>
           <Route
             path="/profile"
             element={

@@ -1,0 +1,21 @@
+@import "../../scss/vars";
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px 100px;
+  h2{
+  }
+  .info{
+  p{
+    border:solid 1px $dop-clr;
+    margin:20px 0;
+
+    color:$text-clr;
+    padding:10px;
+  }
+  }
+}
+#map{
+  width: 30px;
+}
