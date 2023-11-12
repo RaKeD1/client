@@ -36,7 +36,7 @@ const StyledLink = memo((props: any) => {
 const Header = (login: any, setLogin: any) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const location = useLocation();
-  const itemCart = 33;
+  const itemCart = 0;
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [isAuth, setIsAuth] = useState<boolean | null>(false);
   const [component, setComponent] = useState("login");
