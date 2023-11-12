@@ -47,7 +47,7 @@ export const Slider: FC<SliderProps> = ({ SliderInfo, urlOf }) => {
           {/* // Нужно будет исправить */}
           <div className={styles.info}>
             <h3>{slide.title}</h3>
-            <p>{slide.content}</p>
+            <p className={styles.p}>{slide.content}</p>
             {slide.url ? (
               <Link className="button" to={slide.url}>
                 Подробнее
