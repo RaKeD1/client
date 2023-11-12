@@ -18,7 +18,8 @@ export default class AuthService {
   static async logout(): Promise<void> {
     return $auth.post("/logout");
   }
-  static async refresh(): Promise<void> {
+  static async refresh() {
+    //fixme сделать нормальную обработку promise
     return $auth.post("/refresh");
   }
 }

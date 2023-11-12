@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosResponse } from "axios";
-import { AuthResponse } from "../../models/response/AuthResponse";
 import { Status } from "./AccountSlice";
 import { IBrand } from "../../models/IBrand";
 import BrandsService from "../../services/BrandsService";
@@ -52,7 +51,7 @@ export const fetchBrands = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const response = await BrandsService.getAll();
-      return response;
+      return response.data;
     } catch (e) {
       return thunkApi.rejectWithValue("Не удалось загрузить бренды");
     }
@@ -102,8 +101,8 @@ export const brandsSlice = createSlice({
       state.status = Status.SUCCESS;
       state.isLoading = false;
       state.error = "";
-      state.brands = action.payload.data;
-      console.log("Бренды: ", action.payload.data);
+      state.brands = action.payload;
+      console.log("Бренды: ", action.payload);
     },
     [fetchBrands.pending.type]: (state) => {
       state.isLoading = true;

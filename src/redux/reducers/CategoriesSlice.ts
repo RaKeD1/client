@@ -40,7 +40,7 @@ export const fetchCategories = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const response = await CategoriesService.getAll();
-      return response;
+      return response.data;
     } catch (e) {
       return thunkApi.rejectWithValue("Не удалось загрузить категории");
     }
@@ -102,8 +102,8 @@ export const categoriesSlice = createSlice({
       state.status = Status.SUCCESS;
       state.isLoading = false;
       state.error = "";
-      state.categories = action.payload.data;
-      console.log("Категории: ", action.payload.data);
+      state.categories = action.payload;
+      console.log("Категории: ", action.payload);
     },
     [fetchCategories.pending.type]: (state) => {
       state.isLoading = true;

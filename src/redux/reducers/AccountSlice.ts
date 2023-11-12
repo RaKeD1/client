@@ -3,6 +3,7 @@ import { IAccount } from "../../models/IAccount";
 import { AxiosResponse } from "axios";
 import { AuthResponse } from "../../models/response/AuthResponse";
 import AuthService from "../../services/AuthService";
+import { ISliderHome } from "../../models/Slider/ISliderHome";
 
 const localAuth = (local: string) => {
   if (local === "false") return false;
@@ -86,12 +87,13 @@ export const logoutAccount = createAsyncThunk<void, void>(
   },
 );
 
-export const checkAuth = createAsyncThunk<void, void>(
+export const checkAuth = createAsyncThunk<AxiosResponse<loginData>>(
   "account/checkAuthStatus",
   async () => {
     try {
       const response = await AuthService.refresh();
-      return response;
+      console.log("RESPONSE: ", response);
+      return response.data;
     } catch (error: any) {
       //fixme исправить тип с any на другой
       if (!error.response) {
@@ -211,11 +213,11 @@ export const accountSlice = createSlice({
         state.user = null;
         state.status = Status.SUCCESS;
         localStorage.isAuth = false;
-      } else if (action.payload.data?.accessToken) {
-        localStorage.setItem("token", action.payload.data.accessToken);
-        state.user = action.payload.data.user;
+      } else if (action.payload?.accessToken) {
+        localStorage.setItem("token", action.payload?.accessToken);
+        state.user = action.payload.user;
         state.status = Status.SUCCESS;
-        localStorage.setItem("token", action.payload.data.accessToken);
+        localStorage.setItem("token", action.payload?.accessToken);
         // localStorage.setItem('role');
         localStorage.isAuth = true;
         state.isAuth = true;

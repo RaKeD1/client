@@ -51,7 +51,7 @@ export const fetchSliderHome = createAsyncThunk<AxiosResponse<ISliderHome>>(
   async () => {
     try {
       const response = await SliderService.getAll();
-      return response;
+      return response.data;
     } catch (e: any) {
       console.log("Ошибка запроса слайдера: ", e);
       if (!e?.response) {
@@ -120,8 +120,8 @@ export const sliderSlice = createSlice({
       state.status = Status.SUCCESS;
       state.isLoading = false;
       state.error = "";
-      state.sliderHome = action.payload.data;
-      console.log("Слайдер: ", action.payload.data);
+      state.sliderHome = action.payload;
+      console.log("Слайдер: ", action.payload);
     },
     [fetchSliderHome.pending.type]: (state) => {
       state.isLoading = true;

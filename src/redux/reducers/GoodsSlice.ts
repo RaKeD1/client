@@ -78,7 +78,7 @@ export const fetchGoods = createAsyncThunk<AxiosResponse<GoodsResponse>>(
   async () => {
     try {
       const response = await GoodService.getAll();
-      return response;
+      return response.data;
     } catch (e: any) {
       if (!e?.response) {
         return e.message;
@@ -133,8 +133,8 @@ export const goodsSlice = createSlice({
       state.status = Status.SUCCESS;
       state.isLoading = false;
       state.error = "";
-      state.goods = action.payload.data.goods;
-      console.log("Товары: ", action.payload.data);
+      state.goods = action.payload.goods;
+      console.log("Товары: ", action.payload);
     },
     [fetchGoods.pending.type]: (state) => {
       state.isLoading = true;
