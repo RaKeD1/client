@@ -3,4 +3,41 @@
 .footer {
 height: 300px;
   margin-top: auto;
+  background-color: $main-clr;
+  color:$text-wh-clr;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  .container{
+    display: flex;
+    justify-content: space-between;
+    gap: 10vw;
+    .box {
+      color:$text-wh-clr;
+      display: flex;
+      flex-direction: column;
+      img{
+        color:$text-wh-clr;
+      }
+      p{
+        margin: 2vh auto;
+
+      }
+      h3{
+        font-size:16px;
+        color:$dop-clr;
+       text-transform: uppercase;
+      }
+      a{
+        color:$text-wh-clr;
+        font-size: 15px;
+        margin:0.5vh 0;
+        &:hover{
+          color:$dop-clr;
+          transition: 0.2s ;
+        }
+      }
+    }
+  }
+
 }
