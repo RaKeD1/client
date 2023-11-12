@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 export interface ProfileProps {
   email: string;
   roles?: IRoles[];
-  id: string;
+  id: number;
 }
 
 const AdminProfile: FC<ProfileProps> = ({ email, roles }) => {

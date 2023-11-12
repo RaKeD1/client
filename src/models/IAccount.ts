@@ -1,7 +1,7 @@
 export interface IAccount {
   email: string;
   password: string;
-  id: string;
+  id: number;
   roles: IRoles[];
   // confirmed: boolean;
 }

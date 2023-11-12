@@ -3,14 +3,17 @@ import styles from "./feedback.module.scss";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/redux";
 import { fetchAdmins } from "../../redux/reducers/UserSlice";
+import { addFeedBack } from "../../redux/reducers/FeedBackSlice";
 interface AddFeedBackDTO {
   description: string;
   id_admin: number;
+  id_from: number;
   reason: string;
 }
 const FeedBack = () => {
   const dispath = useAppDispatch();
   const admins = useAppSelector((state) => state.users.users);
+  const id_from = useAppSelector((state) => state.account.user?.id);
   const {
     register,
     handleSubmit,
@@ -21,7 +24,7 @@ const FeedBack = () => {
     console.log(data);
     console.log("errors", errors);
     console.log({ ...data });
-    // dispath(addFeedBack({ ...data }));
+    id_from && dispath(addFeedBack({ ...data, id_from }));
   };
   useEffect(() => {
     dispath(fetchAdmins());
