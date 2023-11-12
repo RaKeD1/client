@@ -26,15 +26,8 @@ export const addFeedBack = createAsyncThunk<
   try {
     const { reason, id_admin, description, id_from } = params;
     console.log("addBrand", params);
-    const formData = new FormData();
-    formData.append("reason", reason);
 
-    formData.append("description", description);
-
-    formData.append("id_admin", String(id_admin));
-    formData.append("id_from", String(id_from));
-
-    const response = await FeedBackService.create(formData);
+    const response = await FeedBackService.create(params);
     console.log("addFeedBack", response);
     return response;
   } catch (error: any) {
