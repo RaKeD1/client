@@ -7,7 +7,7 @@ import goodsReducer from "./reducers/GoodsSlice";
 import sliderReducer from "./reducers/SliderSlice";
 
 const rootReducer = combineReducers({
-  userReducer,
+  users: userReducer,
   account: accountReducer,
   categories: categoriesReducer,
   brands: brandsReducer,
@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
 export const store = configureStore({
   reducer: {
     rootReducer,
-    user: userReducer,
+    users: userReducer,
     account: accountReducer,
     categories: categoriesReducer,
     brands: brandsReducer,

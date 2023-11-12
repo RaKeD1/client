@@ -1,50 +1,72 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import {IUser} from "../../models/IUser";
+import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { IUser } from "../../models/IUser";
 import { fetchUsers } from "./ActionCreator";
+import UserService from "../../services/UserService";
 
-interface UserState {
+interface UsersState {
   users: IUser[];
   isLoading: boolean;
   error: string;
 }
-
-const initialState: UserState = {
+export const fetchAllUsers = createAsyncThunk(
+  "users/fetchAll",
+  async (_, thunkApi) => {
+    try {
+      const response = await UserService.fetchUsers();
+      return response;
+    } catch (e) {
+      return thunkApi.rejectWithValue("Не удалось загрузить бренды");
+    }
+  },
+);
+export const fetchAdmins = createAsyncThunk(
+  "users/fetchAdmins",
+  async (_, thunkApi) => {
+    try {
+      const response = await UserService.fetchAdmins();
+      return response;
+    } catch (e) {
+      return thunkApi.rejectWithValue("Не удалось загрузить бренды");
+    }
+  },
+);
+const initialState: UsersState = {
   users: [],
   isLoading: false,
   error: "",
 };
-export const userSlice = createSlice({
-  name: "user",
+export const usersSlice = createSlice({
+  name: "users",
   initialState,
-  reducers: {
-    usersFetching(state) {
-      state.isLoading = true;
-    },
-    usersFetchingSuccess(state, action: PayloadAction<IUser[]>) {
+  reducers: {},
+  extraReducers: {
+    [fetchAllUsers.fulfilled.type]: (state, action: PayloadAction<IUser[]>) => {
       state.isLoading = false;
       state.error = "";
       state.users = action.payload;
     },
-    usersFetchingError(state, action: PayloadAction<string>) {
+    [fetchAllUsers.pending.type]: (state) => {
+      state.isLoading = true;
+      state.error = "";
+    },
+    [fetchAllUsers.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.error = action.payload;
     },
-  },
-  extraReducers: {
-    [fetchUsers.fulfilled.type]: (state, action: PayloadAction<IUser[]>) => {
+    [fetchAdmins.fulfilled.type]: (state, action: PayloadAction<any>) => {
       state.isLoading = false;
       state.error = "";
-      state.users = action.payload;
+      state.users = action.payload.data;
     },
-    [fetchUsers.pending.type]: (state) => {
+    [fetchAdmins.pending.type]: (state) => {
       state.isLoading = true;
       state.error = "";
     },
-    [fetchUsers.rejected.type]: (state, action: PayloadAction<string>) => {
+    [fetchAdmins.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.error = action.payload;
     },
   },
 });
 
-export default userSlice.reducer;
+export default usersSlice.reducer;
