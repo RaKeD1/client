@@ -18,6 +18,9 @@ interface brandsParams {
   description?: string;
   url?: string;
 }
+interface deleteParam {
+  id:number;
+}
 let activeMessage: any = null;
 export const addBrand = createAsyncThunk<
   AxiosResponse<BrandsResponse>,
@@ -47,6 +50,7 @@ export const addBrand = createAsyncThunk<
   }
 });
 export const fetchBrands = createAsyncThunk(
+
   "brands/fetchAll",
   async (_, thunkApi) => {
     try {
@@ -56,6 +60,21 @@ export const fetchBrands = createAsyncThunk(
       return thunkApi.rejectWithValue("Не удалось загрузить бренды");
     }
   },
+);
+export const deleteBrand = createAsyncThunk<AxiosResponse<string>, deleteParam>(
+    "brands/deleteOne",
+    async (params, { rejectWithValue }) => {
+      try {
+       const {id}=params;
+        const response = await BrandsService.deleteBrand(id);
+        console.log(response)
+        return response.data
+      } catch (e:any) {
+        if (!e.response) {
+          return rejectWithValue(e);
+        } else return rejectWithValue(e?.response.data.message);
+      }
+    },
 );
 
 const initialState: brandsState = {
@@ -77,7 +96,6 @@ export const brandsSlice = createSlice({
         activeMessage();
       }
       activeMessage = message.success(action.payload.data.message, 3);
-      //todo сделать возможность добавлять вывод сообщения о том что бренд создан
     },
     [addBrand.pending.type]: (state) => {
       state.isLoading = true;
@@ -92,6 +110,35 @@ export const brandsSlice = createSlice({
       state.isLoading = false;
       state.status = Status.ERROR;
       state.error = action.payload;
+      if (activeMessage) {
+        activeMessage();
+      }
+      activeMessage = message.error(action.payload, 3);
+    },
+    [deleteBrand.fulfilled.type]: (state, action: any) => {
+      state.status = Status.SUCCESS;
+      state.isLoading = false;
+      state.error = "";
+      console.log("СОЗДАН:",action.payload)
+      if (activeMessage) {
+        activeMessage();
+      }
+      activeMessage = message.success(action.payload, 3);
+    },
+    [deleteBrand.pending.type]: (state) => {
+      state.isLoading = true;
+      state.status = Status.LOADING;
+      state.error = "";
+      if (activeMessage) {
+        activeMessage();
+      }
+      activeMessage = message.loading("Отправка на сервер", 0);
+    },
+    [deleteBrand.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.isLoading = false;
+      state.status = Status.ERROR;
+      state.error = action.payload;
+      console.log("ОШИБКА:",action.payload)
       if (activeMessage) {
         activeMessage();
       }

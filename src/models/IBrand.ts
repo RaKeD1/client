@@ -4,4 +4,6 @@ export interface IBrand {
   brand_logo?: string;
   description?: string;
   url?: string;
+  createdAt?:string;
+  updatedAt?:string;
 }

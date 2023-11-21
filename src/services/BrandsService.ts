@@ -24,4 +24,7 @@ export default class BrandsService {
   static async getAll(): Promise<PromiseFetchBrands> {
     return $api.get("/brands");
   }
+  static async deleteBrand(id:number) {
+    return $api.delete("/brands/"+id);
+  }
 }
