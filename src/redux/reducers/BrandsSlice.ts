@@ -18,8 +18,8 @@ interface brandsParams {
   description?: string;
   url?: string;
 }
-interface deleteParam {
-  id:number;
+export interface deleteParam {
+  id: number;
 }
 let activeMessage: any = null;
 export const addBrand = createAsyncThunk<
@@ -50,7 +50,6 @@ export const addBrand = createAsyncThunk<
   }
 });
 export const fetchBrands = createAsyncThunk(
-
   "brands/fetchAll",
   async (_, thunkApi) => {
     try {
@@ -62,19 +61,19 @@ export const fetchBrands = createAsyncThunk(
   },
 );
 export const deleteBrand = createAsyncThunk<AxiosResponse<string>, deleteParam>(
-    "brands/deleteOne",
-    async (params, { rejectWithValue }) => {
-      try {
-       const {id}=params;
-        const response = await BrandsService.deleteBrand(id);
-        console.log(response)
-        return response.data
-      } catch (e:any) {
-        if (!e.response) {
-          return rejectWithValue(e);
-        } else return rejectWithValue(e?.response.data.message);
-      }
-    },
+  "brands/deleteOne",
+  async (params, { rejectWithValue }) => {
+    try {
+      const { id } = params;
+      const response = await BrandsService.deleteBrand(id);
+      console.log(response);
+      return response.data;
+    } catch (e: any) {
+      if (!e.response) {
+        return rejectWithValue(e);
+      } else return rejectWithValue(e?.response.data.message);
+    }
+  },
 );
 
 const initialState: brandsState = {
@@ -119,7 +118,7 @@ export const brandsSlice = createSlice({
       state.status = Status.SUCCESS;
       state.isLoading = false;
       state.error = "";
-      console.log("СОЗДАН:",action.payload)
+      console.log("СОЗДАН:", action.payload);
       if (activeMessage) {
         activeMessage();
       }
@@ -138,7 +137,7 @@ export const brandsSlice = createSlice({
       state.isLoading = false;
       state.status = Status.ERROR;
       state.error = action.payload;
-      console.log("ОШИБКА:",action.payload)
+      console.log("ОШИБКА:", action.payload);
       if (activeMessage) {
         activeMessage();
       }

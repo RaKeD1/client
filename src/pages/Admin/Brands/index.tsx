@@ -1,9 +1,9 @@
-import React, {useEffect} from "react";
-import {ColumnsType} from "antd/es/table";
-import {Popconfirm, Table} from "antd";
-import {useAppDispatch, useAppSelector} from "../../../redux/hooks/redux";
-import {deleteBrand, fetchBrands} from "../../../redux/reducers/BrandsSlice";
-import {IBrand} from "../../../models/IBrand";
+import React, { useEffect } from "react";
+import { ColumnsType } from "antd/es/table";
+import { Popconfirm, Table } from "antd";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks/redux";
+import { deleteBrand, fetchBrands } from "../../../redux/reducers/BrandsSlice";
+import { IBrand } from "../../../models/IBrand";
 
 interface DataType {
   id: number;
@@ -17,13 +17,13 @@ interface DataType {
 
 const TableBrands = () => {
   const dispatch = useAppDispatch();
-  const brands = useAppSelector(state=>state.brands.brands)
+  const brands = useAppSelector((state) => state.brands.brands);
   const columns: ColumnsType<IBrand> = [
     {
       title: "Название бренда",
       dataIndex: "brand_name",
       key: "brand_name",
-      fixed: 'left',
+      fixed: "left",
     },
     {
       title: "Описание",
@@ -54,32 +54,36 @@ const TableBrands = () => {
       title: "Действия",
       key: "actions",
       dataIndex: "actions",
-      fixed: 'right',
+      fixed: "right",
       render: (_, record: { id: React.Key }) =>
-          data.length >= 1 ? (
-              <Popconfirm
-                  title="Вы уверены, что хотите удалить элемент?"
-                  onConfirm={() => handleDelete(record.id)}
-              >
-                <a style={{color:"red"}}>Удалить</a>
-              </Popconfirm>
-          ) : null
-    }
+        data.length >= 1 ? (
+          <Popconfirm
+            title="Вы уверены, что хотите удалить элемент?"
+            onConfirm={() => handleDelete(record.id)}
+          >
+            <a style={{ color: "red" }}>Удалить</a>
+          </Popconfirm>
+        ) : null,
+    },
   ];
   const handleDelete = (key: React.Key) => {
     //const newData = brands?.filter((item) => item.id !== key);
-    dispatch(deleteBrand({id:Number(key)}));
-    console.log("DELETE",key)
+    dispatch(deleteBrand({ id: Number(key) }));
+    console.log("DELETE", key);
   };
 
   useEffect(() => {
     dispatch(fetchBrands());
-  }, []);
-  let data:IBrand[] =[];
-  if (brands){
-     data = brands
+  }, [handleDelete]);
+  let data: IBrand[] = [];
+  if (brands) {
+    data = brands;
   }
-  return <> <Table columns={columns} dataSource={data} /></>;
+  return (
+    <>
+      <Table columns={columns} dataSource={data} />
+    </>
+  );
 };
 
 export default TableBrands;
