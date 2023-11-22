@@ -4,8 +4,6 @@ import { ColumnsType } from "antd/es/table";
 import { Popconfirm, Table } from "antd";
 import { deleteGood, fetchGoods } from "../../../redux/reducers/GoodsSlice";
 import { IGood } from "../../../models/IGood";
-import { fetchBrands } from "../../../redux/reducers/BrandsSlice";
-import { fetchCategories } from "../../../redux/reducers/CategoriesSlice";
 import { IBrand } from "../../../models/IBrand";
 export interface GoodInfo {
   id: number;
@@ -85,16 +83,13 @@ const TableGoods: FC = () => {
   ];
   const handleDelete = (key: React.Key) => {
     dispatch(deleteGood({ id: Number(key) }));
+    dispatch(fetchGoods());
     console.log("DELETE", key);
   };
 
   useEffect(() => {
     dispatch(fetchGoods());
   }, []);
-  useEffect(() => {
-    dispatch(fetchBrands());
-    dispatch(fetchCategories());
-  }, [handleDelete]);
   let data: GoodInfo[] = [];
   if (goods) {
     data = goods.map((good) => ({

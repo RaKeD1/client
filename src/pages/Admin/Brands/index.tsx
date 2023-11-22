@@ -67,14 +67,14 @@ const TableBrands = () => {
     },
   ];
   const handleDelete = (key: React.Key) => {
-    //const newData = brands?.filter((item) => item.id !== key);
     dispatch(deleteBrand({ id: Number(key) }));
+    dispatch(fetchBrands());
     console.log("DELETE", key);
   };
-
   useEffect(() => {
     dispatch(fetchBrands());
-  }, [handleDelete]);
+  }, []);
+
   let data: IBrand[] = [];
   if (brands) {
     data = brands;
