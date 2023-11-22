@@ -1,3 +1,6 @@
+import { IBrand } from "./IBrand";
+import { ICategories } from "./ICategories";
+
 export interface IGood {
   id: number;
   name: string;
@@ -8,6 +11,8 @@ export interface IGood {
   article: string;
   storage: number;
   brandId?: number;
+  brand: IBrand;
+  type: ICategories;
   typeId: number;
   imgs: string[];
 }
