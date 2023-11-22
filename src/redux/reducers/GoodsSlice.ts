@@ -5,6 +5,8 @@ import GoodService, { CreateGoodDto } from "../../services/GoodService";
 import { IGood } from "../../models/IGood";
 import { GoodsResponse } from "../../models/response/GoodsResponse";
 import { message } from "antd";
+import BrandsService from "../../services/BrandsService";
+import { deleteParam } from "./BrandsSlice";
 
 interface goodsState {
   goods: IGood[] | null;
@@ -86,6 +88,22 @@ export const fetchGoods = createAsyncThunk<AxiosResponse<GoodsResponse>>(
         return e.response.data.message;
       }
       alert(`Не удалось загрузить товары \n Ошибка: ${e}`);
+    }
+  },
+);
+
+export const deleteGood = createAsyncThunk<AxiosResponse<string>, deleteParam>(
+  "goods/deleteOne",
+  async (params, { rejectWithValue }) => {
+    try {
+      const { id } = params;
+      const response = await GoodService.deleteGood(id);
+      console.log(response);
+      return response.data;
+    } catch (e: any) {
+      if (!e.response) {
+        return rejectWithValue(e);
+      } else return rejectWithValue(e?.response.data.message);
     }
   },
 );

@@ -21,4 +21,7 @@ export default class GoodService {
   static async getAll(): Promise<AxiosResponse<GoodsResponse>> {
     return $api.get("/goods");
   }
+  static async deleteGood(id: number) {
+    return $api.delete("/goods/" + id);
+  }
 }
