@@ -22,4 +22,7 @@ export default class CategoriesService {
   static async getAll(): Promise<PromiseFetchCategories> {
     return $api.get("/types");
   }
+  static async deleteCategory(id: number) {
+    return $api.delete("/types/" + id);
+  }
 }
