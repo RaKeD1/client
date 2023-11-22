@@ -4,11 +4,27 @@ import { ColumnsType } from "antd/es/table";
 import { Popconfirm, Table } from "antd";
 import { deleteGood, fetchGoods } from "../../../redux/reducers/GoodsSlice";
 import { IGood } from "../../../models/IGood";
-
+import { fetchBrands } from "../../../redux/reducers/BrandsSlice";
+import { fetchCategories } from "../../../redux/reducers/CategoriesSlice";
+import { IBrand } from "../../../models/IBrand";
+export interface GoodInfo {
+  id: number;
+  name: string;
+  main_img: string;
+  price: number;
+  description: string;
+  secret: boolean;
+  article: string;
+  storage: number;
+  brandName: string;
+  brand: IBrand;
+  imgs: string[];
+  typeName: string;
+}
 const TableGoods: FC = () => {
   const dispatch = useAppDispatch();
   const goods = useAppSelector((state) => state.goods.goods);
-  const columns: ColumnsType<IGood> = [
+  const columns: ColumnsType<GoodInfo | IGood> = [
     {
       title: "Название товара",
       dataIndex: "name",
@@ -37,13 +53,14 @@ const TableGoods: FC = () => {
     },
     {
       title: "Категория товара",
-      dataIndex: "typeId",
+
       key: "typeId",
+      dataIndex: "typeName",
     },
     {
       title: "Бренда товара",
       key: "brandId",
-      dataIndex: "brandId",
+      dataIndex: "brandName",
     },
     {
       title: "Секретный ли товар",
@@ -74,10 +91,18 @@ const TableGoods: FC = () => {
 
   useEffect(() => {
     dispatch(fetchGoods());
+  }, []);
+  useEffect(() => {
+    dispatch(fetchBrands());
+    dispatch(fetchCategories());
   }, [handleDelete]);
-  let data: IGood[] = [];
+  let data: GoodInfo[] = [];
   if (goods) {
-    data = goods;
+    data = goods.map((good) => ({
+      ...good,
+      brandName: good.brand.brand_name,
+      typeName: good.type.type_name,
+    }));
   }
   return (
     <>
