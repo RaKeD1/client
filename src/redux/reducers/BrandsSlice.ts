@@ -31,7 +31,6 @@ export const addBrand = createAsyncThunk<
 >("brands/addStatus", async (params, { rejectWithValue }) => {
   try {
     const { brand_name, brand_logo, description, url } = params;
-    console.log("addBrand", params);
     const formData = new FormData();
     formData.append("brand_name", brand_name);
     if (brand_logo) {
@@ -44,7 +43,6 @@ export const addBrand = createAsyncThunk<
       formData.append("url", url);
     }
     const response = await BrandsService.create(formData);
-    console.log("addBrand", response);
     return response;
   } catch (error: any) {
     if (!error.response) {
@@ -70,7 +68,6 @@ export const deleteBrand = createAsyncThunk<
   try {
     const { id } = params;
     const response = await BrandsService.deleteBrand(id);
-    console.log(response);
     return response.data;
   } catch (e: any) {
     if (!e.response) {
@@ -124,7 +121,6 @@ export const brandsSlice = createSlice({
       state.status = Status.SUCCESS;
       state.isLoading = false;
       state.error = "";
-      console.log("СОЗДАН:", action.payload.message);
       if (activeMessage) {
         activeMessage();
       }
@@ -143,7 +139,6 @@ export const brandsSlice = createSlice({
       state.isLoading = false;
       state.status = Status.ERROR;
       state.error = action.payload;
-      console.log("ОШИБКА:", action.payload);
       if (activeMessage) {
         activeMessage();
       }
@@ -154,7 +149,6 @@ export const brandsSlice = createSlice({
       state.isLoading = false;
       state.error = "";
       state.brands = action.payload;
-      console.log("Бренды: ", action.payload);
     },
     [fetchBrands.pending.type]: (state) => {
       state.isLoading = true;
