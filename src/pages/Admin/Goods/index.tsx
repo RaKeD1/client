@@ -84,7 +84,6 @@ const TableGoods: FC = () => {
     },
   ];
   const handleDelete = (key: React.Key) => {
-    //const newData = brands?.filter((item) => item.id !== key);
     dispatch(deleteGood({ id: Number(key) }));
     console.log("DELETE", key);
   };
