@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ColumnsType } from "antd/es/table";
 import { Popconfirm, Table } from "antd";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks/redux";
@@ -18,6 +18,8 @@ interface DataType {
 const TableBrands = () => {
   const dispatch = useAppDispatch();
   const brands = useAppSelector((state) => state.brands.brands);
+  const [data, setData] = useState<IBrand[]>([]);
+
   const columns: ColumnsType<IBrand> = [
     {
       title: "Название бренда",
@@ -68,17 +70,19 @@ const TableBrands = () => {
   ];
   const handleDelete = (key: React.Key) => {
     dispatch(deleteBrand({ id: Number(key) }));
-    dispatch(fetchBrands());
-    console.log("DELETE", key);
+    data && setData(data.filter((brand) => brand.id != Number(key)));
   };
+
   useEffect(() => {
     dispatch(fetchBrands());
   }, []);
 
-  let data: IBrand[] = [];
-  if (brands) {
-    data = brands;
-  }
+  useEffect(() => {
+    if (brands) {
+      setData(brands);
+    }
+  }, [brands]);
+
   return (
     <>
       <Table columns={columns} dataSource={data} />
