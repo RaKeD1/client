@@ -1,10 +1,11 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks/redux";
 import { ColumnsType } from "antd/es/table";
 import { Popconfirm, Table } from "antd";
 import { deleteGood, fetchGoods } from "../../../redux/reducers/GoodsSlice";
 import { IGood } from "../../../models/IGood";
 import { IBrand } from "../../../models/IBrand";
+import { ICategories } from "../../../models/ICategories";
 export interface GoodInfo {
   id: number;
   name: string;
@@ -22,6 +23,7 @@ export interface GoodInfo {
 const TableGoods: FC = () => {
   const dispatch = useAppDispatch();
   const goods = useAppSelector((state) => state.goods.goods);
+  const [data, setData] = useState<GoodInfo[]>([]);
   const columns: ColumnsType<GoodInfo | IGood> = [
     {
       title: "Название товара",
@@ -83,21 +85,26 @@ const TableGoods: FC = () => {
   ];
   const handleDelete = (key: React.Key) => {
     dispatch(deleteGood({ id: Number(key) }));
-    dispatch(fetchGoods());
-    console.log("DELETE", key);
+
+    data && setData(data.filter((good) => good.id != Number(key)));
   };
 
   useEffect(() => {
     dispatch(fetchGoods());
   }, []);
-  let data: GoodInfo[] = [];
-  if (goods) {
-    data = goods.map((good) => ({
-      ...good,
-      brandName: good.brand.brand_name,
-      typeName: good.type.type_name,
-    }));
-  }
+
+  useEffect(() => {
+    if (goods) {
+      setData(
+        goods.map((good) => ({
+          ...good,
+          brandName: good.brand.brand_name,
+          typeName: good.type.type_name,
+        })),
+      );
+    }
+  }, [goods]);
+
   return (
     <>
       <Table columns={columns} dataSource={data} />
