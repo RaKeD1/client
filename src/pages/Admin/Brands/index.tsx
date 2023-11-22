@@ -68,9 +68,12 @@ const TableBrands = () => {
         ) : null,
     },
   ];
-  const handleDelete = (key: React.Key) => {
-    dispatch(deleteBrand({ id: Number(key) }));
-    data && setData(data.filter((brand) => brand.id != Number(key)));
+  const handleDelete = async (key: React.Key) => {
+    const resultAction = await dispatch(deleteBrand({ id: Number(key) }));
+
+    if (deleteBrand.fulfilled.match(resultAction)) {
+      data && setData(data.filter((brand) => brand.id !== Number(key)));
+    }
   };
 
   useEffect(() => {

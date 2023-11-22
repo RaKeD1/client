@@ -5,7 +5,6 @@ import { Popconfirm, Table } from "antd";
 import { deleteGood, fetchGoods } from "../../../redux/reducers/GoodsSlice";
 import { IGood } from "../../../models/IGood";
 import { IBrand } from "../../../models/IBrand";
-import { ICategories } from "../../../models/ICategories";
 export interface GoodInfo {
   id: number;
   name: string;
@@ -83,10 +82,12 @@ const TableGoods: FC = () => {
         ) : null,
     },
   ];
-  const handleDelete = (key: React.Key) => {
-    dispatch(deleteGood({ id: Number(key) }));
+  const handleDelete = async (key: React.Key) => {
+    const resultAction = await dispatch(deleteGood({ id: Number(key) }));
 
-    data && setData(data.filter((good) => good.id != Number(key)));
+    if (deleteGood.fulfilled.match(resultAction)) {
+      data && setData(data.filter((good) => good.id !== Number(key)));
+    }
   };
 
   useEffect(() => {
