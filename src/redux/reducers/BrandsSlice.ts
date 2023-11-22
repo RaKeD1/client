@@ -6,6 +6,9 @@ import BrandsService from "../../services/BrandsService";
 import { BrandsResponse } from "../../models/response/BrandsResponse";
 import { message } from "antd";
 
+export interface deletePromise {
+  message: string;
+}
 interface brandsState {
   brands: IBrand[] | null;
   isLoading: boolean;
@@ -60,21 +63,21 @@ export const fetchBrands = createAsyncThunk(
     }
   },
 );
-export const deleteBrand = createAsyncThunk<AxiosResponse<string>, deleteParam>(
-  "brands/deleteOne",
-  async (params, { rejectWithValue }) => {
-    try {
-      const { id } = params;
-      const response = await BrandsService.deleteBrand(id);
-      console.log(response);
-      return response.data;
-    } catch (e: any) {
-      if (!e.response) {
-        return rejectWithValue(e);
-      } else return rejectWithValue(e?.response.data.message);
-    }
-  },
-);
+export const deleteBrand = createAsyncThunk<
+  AxiosResponse<deletePromise>,
+  deleteParam
+>("brands/deleteOne", async (params, { rejectWithValue }) => {
+  try {
+    const { id } = params;
+    const response = await BrandsService.deleteBrand(id);
+    console.log(response);
+    return response.data;
+  } catch (e: any) {
+    if (!e.response) {
+      return rejectWithValue(e);
+    } else return rejectWithValue(e?.response.data.message);
+  }
+});
 
 const initialState: brandsState = {
   brands: null,
@@ -114,15 +117,18 @@ export const brandsSlice = createSlice({
       }
       activeMessage = message.error(action.payload, 3);
     },
-    [deleteBrand.fulfilled.type]: (state, action: any) => {
+    [deleteBrand.fulfilled.type]: (
+      state,
+      action: PayloadAction<deletePromise>,
+    ) => {
       state.status = Status.SUCCESS;
       state.isLoading = false;
       state.error = "";
-      console.log("СОЗДАН:", action.payload);
+      console.log("СОЗДАН:", action.payload.message);
       if (activeMessage) {
         activeMessage();
       }
-      activeMessage = message.success(action.payload, 3);
+      activeMessage = message.success(action.payload.message, 3);
     },
     [deleteBrand.pending.type]: (state) => {
       state.isLoading = true;

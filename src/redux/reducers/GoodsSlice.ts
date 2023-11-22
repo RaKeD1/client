@@ -5,8 +5,7 @@ import GoodService, { CreateGoodDto } from "../../services/GoodService";
 import { IGood } from "../../models/IGood";
 import { GoodsResponse } from "../../models/response/GoodsResponse";
 import { message } from "antd";
-import BrandsService from "../../services/BrandsService";
-import { deleteParam } from "./BrandsSlice";
+import { deleteParam, deletePromise } from "./BrandsSlice";
 
 interface goodsState {
   goods: IGood[] | null;
@@ -138,6 +137,37 @@ export const goodsSlice = createSlice({
       activeMessage = message.loading("Отправка на сервер", 0);
     },
     [createProduct.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.isLoading = false;
+      state.status = Status.ERROR;
+      state.error = action.payload;
+      if (activeMessage) {
+        activeMessage();
+      }
+      activeMessage = message.error(action.payload, 3);
+      console.log(action.payload);
+    },
+    [deleteGood.fulfilled.type]: (
+      state,
+      action: PayloadAction<deletePromise>,
+    ) => {
+      state.status = Status.SUCCESS;
+      state.isLoading = false;
+      state.error = "";
+      if (activeMessage) {
+        activeMessage();
+      }
+      activeMessage = message.success(action.payload.message, 3);
+    },
+    [deleteGood.pending.type]: (state) => {
+      state.isLoading = true;
+      state.status = Status.LOADING;
+      state.error = "";
+      if (activeMessage) {
+        activeMessage();
+      }
+      activeMessage = message.loading("Отправка на сервер", 0);
+    },
+    [deleteGood.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.status = Status.ERROR;
       state.error = action.payload;
