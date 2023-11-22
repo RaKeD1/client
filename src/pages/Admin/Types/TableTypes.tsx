@@ -47,11 +47,12 @@ const TableTypes = () => {
     },
   ];
 
-  const handleDelete = (key: React.Key) => {
-    dispatch(deleteCategory({ id: Number(key) }));
+  const handleDelete = async (key: React.Key) => {
+    const resultAction = await dispatch(deleteCategory({ id: Number(key) }));
 
-    categories &&
-      setData(categories.filter((category) => category.id != Number(key)));
+    if (deleteCategory.fulfilled.match(resultAction)) {
+      data && setData(data.filter((category) => category.id !== Number(key)));
+    }
   };
 
   useEffect(() => {
